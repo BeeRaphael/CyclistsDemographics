@@ -13,9 +13,9 @@ output: html_document
    Is the demographics of people who cycle to work different than from the general public?
    In Europe the bike is a very common mode of transport for daily routines and work. 
    How about the US? Since a much smaller percentage of the workforce in the US commutes by bike,
-   I would like to ask what differentiates people that cycle? E. g. How long is there 
+   I would like to ask what differentiates people that cycle? E. g. How long is their
    commute in comparison to people using other modes of transport? Is their level of education
-   higher than that of all employees? Do more people working in the sciences & tech/computer industry 
+   higher or lower than that of all employees? Do more people working in the sciences & tech/computer industry 
    cycle to work in comparison to the general public?
    
 ### The PUMS data set
@@ -78,6 +78,20 @@ Some of the Variables in PERSON RECORD of PUMS:
    - The median commuting time of cyclists (15min) is 5 min shorter than the median commuting time of car drivers (20min)
      (Which means that half the cycling commuters get at least 30 min of exercise per day by cycling to work.)
  
+ 
+   Transport | MedianTime | MeanTime |  N     | NSCI    | NHighDegr | NUSborn  | NHighInc |   NWomen   |    TMode  
+   ----------|------------|----------|--------|---------|-----------|----------|----------|------------|----------  
+         1   |     20     |   25     |1134599 | 5.454262| 12.75570  |85.59421  |13.555450 |48.46787    |   Car  
+         
+         
+        2    |     40    |   47  | 30413  |6.273633  |10.94269 |67.91832  |9.762273 |52.45783     |    Bus
+         5    |     45    |   53  | 32189 |10.093510  |25.03650 |66.22759 |29.118643 |48.23076 |Train/Ferry
+         8     |    20     |  23   | 3031 |10.293632  |10.45859 |89.83834 |17.123062 |14.18674  | Motorbike
+         9  |       15  |     20  |  7922 |11.714214  |22.54481 |80.52260 |14.188336 |29.31078   |     Bike
+        10   |       7   |    11  | 38347 | 4.837406  |12.33995 |81.19540 |7.468642 |47.17188     |   Walk
+        11    |     NA    |   NA  | 47448 | 9.939302  |18.47496 |85.76968 |23.554207 |49.57006     |   Home
+        12     |    20     |  37  | 10525 | 4.446556  | 8.79810 |78.47031 |15.581948 |38.35629    |  Others
+
 
 ### Some shortfalls:
 - Since the cycling-to-work community is very small (less than 1%) and also because the dataset contained for some variables a lot of NAs, the cyclists dataset that could be analyzed is actually not very big. From the initial 3.13 Million observations only 7922 cyclists with a given wage and travel time were recorded.
