@@ -42,9 +42,13 @@ library(dplyr)
 setwd("US Census data/uscensus_population")
 colClasses = sapply(read.csv("ss13pusa.csv",nrows=100),class)
 
-pusa <-fread('ss13pusa.csv', header=TRUE, select=c("SERIALNO","SPORDER","ST","PWGTP","AGEP","SEX","RAC1P","SCHL","CIT","COW","WAGP","PERNP","PINCP","OCCP","ESR", "SCIENGP","SCIENGRLP","FOD1P","FOD2P","JWMNP","JWTR","JWAP","JWDP"),colClasses = colClasses)
+pusa <-fread('ss13pusa.csv', header=TRUE, 
+             select=c("SERIALNO","SPORDER","ST","PWGTP","AGEP","SEX","RAC1P","SCHL","CIT", "COW","WAGP",
+                      "PERNP","PINCP","OCCP","ESR", "SCIENGP","SCIENGRLP","FOD1P","FOD2P","JWMNP","JWTR","JWAP","JWDP"))
 # 1613672 rows
-pusb <-fread('ss13pusb.csv', header=TRUE, select=c("SERIALNO","SPORDER","ST","PWGTP","AGEP","SEX","RAC1P","SCHL","CIT","COW","WAGP","PERNP","PINCP","OCCP","ESR", "SCIENGP","SCIENGRLP","FOD1P","FOD2P","JWMNP","JWTR","JWAP","JWDP"),colClasses = colClasses)
+pusb <-fread('ss13pusb.csv', header=TRUE, 
+             select=c("SERIALNO","SPORDER","ST","PWGTP","AGEP","SEX","RAC1P","SCHL","CIT","COW","WAGP",
+                      "PERNP","PINCP","OCCP","ESR", "SCIENGP","SCIENGRLP","FOD1P","FOD2P","JWMNP","JWTR","JWAP","JWDP"))
 # 1519123
 
 setwd('Documents/Academia & Career/Bewerbung Engl/Data Incubator/Challenge')
@@ -52,10 +56,11 @@ setwd('Documents/Academia & Career/Bewerbung Engl/Data Incubator/Challenge')
 Data<-rbind(pusa, pusb) # 3132795 rows
 rm(pusa,pusb)
 
-Data = Data[!is.na(Data$JWTR) & Data$WAGP>0 ,] # 1.38 Mi
+#iData = Data[!is.na(Data$JWTR) & Data$WAGP>0 & Data$JWTR < 11 & Data$JWTR != 3 ,] # 613 td
 
+ Data <- filter(Data, !is.na(JWTR) & WAGP>0  ) # & JWTR<11 &  &
 
-Data<-transform(Data, SEX = factor(SEX), Race = factor(RAC1P), degree = factor(SCHL), Citizenship = factor(CIT), Transport = factor(JWTR))
+Data<-transform(Data, SEX = factor(SEX), Race = factor(RAC1P), degree = factor(SCHL), Citizenship = factor(CIT), Transport = factor(JWTR), WorkTravelTime =as.double(JWMNP))
 Data<-transform(Data, ScienceDeg = (Data$SCIENGRLP==1 | Data$SCIENGP==1))
 Data<-transform(Data, Bike = ((Data$Transport==9)))
 
@@ -66,9 +71,51 @@ Data$SCHL <- NULL
 Data$CIT <- NULL
 Data$JWTR <- NULL
 
+# Transport column in Data
+#   1 .Car, truck, or van /    2 .Bus or trolley bus    3 .Streetcar or trolley car 
+#   4 .Subway      5 .Railroad     6 .Ferryboat         7 .Taxicab       8 .Motorcycle
+#    9 .Bicycle     10 .Walked      11 .Worked at home   12 .Other method
+
+
+# add subway + trolley + ferry + Taxi travels to train category
+Data$Transport[Data$Transport==4| Data$Transport==3 |  Data$Transport==6 |  Data$Transport==7] <-5
+
+
 NTransport<-table(Data$Transport)
-NTransport/sum(NTransport)*100
+TranspNames <-c("Car","Bus"," "," ","Train/Ferry", " ", " ","Motorbike","Bike","Walk","Home","Others")
+names(NTransport) <- TranspNames
+percNTransp <- round(NTransport/sum(NTransport)*1000)
+
+percNTransp<-sort(percNTransp,decreasing=TRUE)
+
+ #png(filename = "plot1.png",width = 600, height = 600, units = "px", pointsize = 12)
+
+par(mfrow=c(2,1), mar = c(2, 4, 0.1, 0.1)) # bott, le, top, ri)
+waffle(percNTransp/2, rows=20, size=1,
+       colors=c("gray56", "steelblue2", "indianred1", "olivedrab3","goldenrod1", "violetred2","plum2","royalblue1"), 
+       title="Modes of transport to work", xlab="Eachsquare is ~0.2% ")
+
+
+#dev.off()
+
+
+
+
+
 
 DataCW <- Data[Data$Transport==9,]
 
+
+qplot(Transport, JWMNP, data = Data, color = Bike)
+
+
+p <- ggplot(Data, aes(x=Transport, y=WorkTravelTime)) +  geom_violin() 
+
+#scale_x_discrete(limits=c(1,2,4,5,7,8,9,10)) # display only subset of data, exclude trolley & ferry
++ coord_cartesian(ylim = c(0, 120)) 
++ stat_summary(fun.y=median, geom="point", size=3, color="blue") # add median / mean
+
+# geom_boxplot(width=0.2) # includes all outliers as dots
+
+wafflesquares<-sort(wafflesquares,decreasing=TRUE)
 
