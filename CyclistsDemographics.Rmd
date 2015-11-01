@@ -1,0 +1,89 @@
+---
+title: "CyclistsDemographics"
+author: "Sabine Raphael"
+date: "31 October 2015"
+output: html_document
+---
+
+## A short and not complete cyclists' demographic of US commuters
+
+### The Question:
+
+   How many people in the US commute to work on bike and who are they?  
+   Is the demographics of people who cycle to work different than from the general public?
+   In Europe the bike is a very common mode of transport for daily routines and work. 
+   How about the US? Since a much smaller percentage of the workforce in the US commutes by bike,
+   I would like to ask what differentiates people that cycle? E. g. How long is there 
+   commute in comparison to people using other modes of transport? Is their level of education
+   higher than that of all employees? Do more people working in the sciences & tech/computer industry 
+   cycle to work in comparison to the general public?
+   
+### The PUMS data set
+- Public Use Microdata Sample (PUMS) contains a sample of actual responses to the American Community Survey (ACS)
+- Downloaded from http://www2.census.gov/acs2013_1yr/pums/csv_pus.zip on 30th Oct 2015
+- Data dictionary: http://www2.census.gov/programs-surveys/acs/tech_docs/pums/data_dict/PUMSDataDict13.txt
+- 1 year data of 2013
+- The two datasets are 1.53 GB & 1.44GB of size (total 2.97GB)
+- Each row in the datasets is a person.
+- The two combined data sets have 3.13 Million rows.
+
+
+Some of the Variables in PERSON RECORD of PUMS:  
+ * Serialno - person serial number  
+ * SPORDER - person number  
+ * ST     - US state   
+ * AGEP   -  Age  
+ * SEX    - 1 - male, 2 - female  
+ * PWGTP  - weight   
+ * ESR    - Employment status recode   
+ * WAGP   - salary / wage  
+ * PERNP  - person earnings  (job)  
+ * PINCP  - income (total)  
+ * RAC1P  - race code :  1 .White alone 2 .Black/African American alone 3 .American Indian alone ...    
+ * SCIENGRLP/SCIENGP - Field of Degree Science and Engineering + related; 1:yes  -> a lot of missing values!! 
+ * COW  - Class of worker  
+ * CIT  - citizenship status (1-born in US, 4 .U.S. citizen by naturalization 5 .Not a citizen of the U.S.)  
+ * OCCP - occupation code >999 and <2000 includes scientists , engineers, computer experts, analysts  
+ * SCHL - degree   22 .Master's degree 23 .Professional degree beyond a bachelor's degree  24 .Doctorate degree   
+ * JWAP - time of arrival at work    
+ * JWDP - time of departure from work  
+ * LANP - language spoken at home bbb - only english  
+ * JWMNP - travel time to work (in min)  
+ * JWTR  - transportation to work  (1 .Car, truck, or van /    2 .Bus or trolley bus    3 .Streetcar or trolley car 
+  4 .Subway      5 .Railroad     6 .Ferryboat         7 .Taxicab       8 .Motorcycle
+   9 .Bicycle     10 .Walked      11 .Worked at home   12 .Other method)  
+* FOD1P  + FOD2P - Field of degree; Computer expert  2100 - 2107; Engineering: 2400-2599;  Math 3700  
+
+### The R script (CyclistsDemographics.R)
+- The script generates 3 graphs and saves them as png files (in the working directory).
+- It is assumed that the data files (ss13pusb.csv and ss13pusb.csv) are in the working directory
+- The following packages are used: data.table, ggplot2, dplyr, waffle
+- The data are stored in the data table "Data".
+- Summary statistics grouped by transport type is stored in "GroupStats"
+- Summary statistics of all earning commuters is stored in "PopStats"
+
+
+### Results in a nutshell:  
+   - Cyclists are twice as likely to work as scientists, analysts, computer experts and engineers as the 
+     average working person
+   - Cyclists are 1.7 times as likely as the average worker to have gained a professional degree beyond a bachelor.
+   - (Though, that doesn't beat the people commuting by train and ferry who are almost twice as likely to have 
+      a masters degree or higher)
+   - Around 30% of cyclists are women. 
+   - The percentage of not in the us born people is 30% higher among the cyclists than in the general (working) public
+   - (The percent not in us born people is especially among the bus & train commuters very high)
+   - Despite the higher percentage of Masters and PhDs among the cyclists, their Median wage is 25% below 
+     the median wage of all commuters in the dataset. Though, the percent of high earning cyclists (wage >$80000) 
+     is similar to that of all workers
+   - The median commuting time of cyclists (15min) is 5 min shorter than the median commuting time of car drivers (20min)
+     (Which means that half the cycling commuters get at least 30 min of exercise per day by cycling to work.)
+ 
+
+### Some shortfalls:
+- Since the cycling-to-work community is very small (less than 1%) and also because the dataset contained for some variables a lot of NAs, the cyclists dataset that could be analyzed is actually not very big. From the initial 3.13 Million observations only 7922 cyclists with a given wage and travel time were recorded.
+- The dataset is not weighted (to compensate for underrepresented groups), Wages are not adjusted
+- The wage was analyzed, which is not identical to the total income
+- Location was not included in the analyses (e. g. people in a city are probably much more likely to commute by train and by walking than by car)
+
+
+

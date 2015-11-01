@@ -1,14 +1,39 @@
 # * This script analyzes the  Public Use Microdata Sample (PUMS) from the us census year 2013
-# * The question I try to answer is: How is the demographics of people who cycle to work 
-#   different than from the general public.
+#
+# * The question: 
+#   How many people in the US commute to work on bike and who are they?
+#   Is the demographics of people who cycle to work different than from the general public?
+#   In Europe the bike is a very common mode of transport for daily routines and work. 
+#   How about the US? Since a much smaller percentage of the workforce in the US commutes by bike,
+#   I would like to ask what differentiates people that cycle? E. g. How long is there 
+#   commute in comparison to people using other modes of transport? Is their level of education
+#   higher than that of all employees?
+# 
+# * Results in a nutshell:  
+#   - Cyclists are twice as likely to work as scientists, analysts, computer experts and engineers as the 
+#     average working person
+#   - Cyclists are 1.7 times as likely as the average worker to have gained a professional degree beyond a bachelor.
+#   - (Though, that doesn't beat the people commuting by train and ferry who are almost twice as likely to have 
+#      a masters degree or higher)
+#   - Around 30% of cyclists are women. 
+#   - The percentage of not in the us born people is 30% higher among the cyclists than in the general (working) public
+#   - (The percent not in us born people is especially among the bus & train commuters very high)
+#   - Despite the higher percentage of Masters and PhDs among the cyclists, their Median wage is 25% below 
+#     the median wage of all commuters in the dataset. Though, the percent of high earning cyclists (wage >$80000) 
+#     is similar to that of all workers
+#   - The median commuting time of cyclists (15min) is 5 min shorter than the median commuting time of car drivers (20min)
+#     (Which means that half the cycling commuters get at least 30 min of exercise per day by cycling to work.)
+# 
 # * The script generates 3 graphs and saves them as png files (in the working directory).
 # * It also calculates some statistics about the people who use different modes of transportation to work
 # * People with Wage (WAGP) =0 and Transportation (JWTR) = NA were excluded
 # * It is assumed that the data files (ss13pusb.csv and ss13pusb.csv) are in the working directory
 # * The following packages are used: data.table, ggplot2, dplyr, waffle
 #
-# author: Sabine Raphael
+# Author: Sabine Raphael
 # Nov 1st 2015
+
+
 
 # dataset:
 #   Public Use Microdata Sample (PUMS) contains a sample of actual responses 
@@ -33,7 +58,7 @@
 #           5 .American Indian and Alaska Native tribes / 6 .Asian alone / 7 .Native Hawaiian and Other Pacific Islander alone
 #           8 .Some Other Race alone   / 9 .Two or More Races  
 # SCIENGRLP / SCIENGP Field of Degree Science and Engineering Flag  / related: 1:yes  -> a lot of missing values!! do not use
-# COW  - Class of worker
+# COW  - Class of worker (1-employee of company for profit, 2- employee private, non-profit, ...)
 # CIT  - citizenship status (1-born in US, 4 .U.S. citizen by naturalization 5 .Not a citizen of the U.S.)
 # OCCP - occupation code 1*** includes scientists , engineers, computer experts, analysts
 # SCHL - degree   22 .Master's degree 23 .Professional degree beyond a bachelor's degree  24 .Doctorate degree 
@@ -41,7 +66,7 @@
 # JWDP - time of departure from work
 # LANP - language spoken at home bbb - only english
 # JWMNP - travel time to work (in min)
-# JWTR  - transportation to work
+# JWTR  - transportation to work (later renamed to "Transport")
 #    1 .Car, truck, or van /    2 .Bus or trolley bus    3 .Streetcar or trolley car 
 #    4 .Subway      5 .Railroad     6 .Ferryboat         7 .Taxicab       8 .Motorcycle
 #    9 .Bicycle     10 .Walked      11 .Worked at home   12 .Other method
@@ -76,12 +101,6 @@ Data <- filter(Data, !is.na(JWTR) & WAGP>0  ) # exclude NAs in transport to work
 Data<-transform(Data,  Race = factor(RAC1P), degree = SCHL, Transport = factor(JWTR), WorkTravelTime =as.double(JWMNP))
 Data$RAC1P <- NULL
 Data$JWTR <- NULL
-
-# Transport column in Data
-#   1 .Car, truck, or van /    2 .Bus or trolley bus    3 .Streetcar or trolley car 
-#   4 .Subway      5 .Railroad     6 .Ferryboat         7 .Taxicab       8 .Motorcycle
-#    9 .Bicycle     10 .Walked      11 .Worked at home   12 .Other method
-
 
 
 
@@ -122,7 +141,9 @@ GroupStats<-Data %>%
             NHighDegr = sum(degree>21)/N*100, # Perc with highest degree master or higher
             NUSborn  = sum(CIT==1)/N*100,    # Perc born in US
             NHighInc = sum(WAGP>80000)/N*100, # Perc income above 80000 
-            NWomen   = sum(SEX==2) /N*100     # Perc women
+            NWomen   = sum(SEX==2) /N*100,     # Perc women
+            MedianWage = median(WAGP),
+            MeanWage   = mean(WAGP)
   )
 
 GroupStats  <- GroupStats[order(GroupStats$Transport, decreasing=FALSE),]
@@ -152,7 +173,9 @@ PopStats<-Data %>%
             NHighDegr=sum(degree>21)/N*100, # Perc with highest degree master or higher
             NUSborn  = sum(CIT==1)/N*100,    # Perc born in US
             NHighInc = sum(WAGP>80000)/N*100, # Perc income above 80000 
-            NWomen   = sum(SEX==2) /N*100     # Perc women
+            NWomen   = sum(SEX==2) /N*100,     # Perc women
+            MedianWage = median(WAGP),
+            MeanWage   = mean(WAGP)
   )
 
 print(PopStats)
