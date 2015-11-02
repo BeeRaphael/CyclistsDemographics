@@ -10,13 +10,31 @@ output: html_document
 ### The Question:
 
    How many people in the US commute to work on bike and who are they?  
-   Is the demographics of people who cycle to work different than from the general public?
+   Is the demographics of people who cycle to work different from the general public?
    In Europe the bike is a very common mode of transport for daily routines and work. 
    How about the US? Since a much smaller percentage of the workforce in the US commutes by bike,
    I would like to ask what differentiates people that cycle? E. g. How long is their
    commute in comparison to people using other modes of transport? Is their level of education
    higher or lower than that of all employees? Do more people working in the sciences & tech/computer industry 
-   cycle to work in comparison to the general public?
+   cycle to work in comparison to the general public? 
+ 
+   Where in the US has the cycling population increased in the last years? Can an increase of commutes by 
+   bike be linked to successful Cycle2Work programms or by the development of cycling paths? 
+   
+   
+   If we could get a good idea of who is cycling and why it should be possible to increase the amount of 
+   bike commutes. Similarly one could ask what has to happen to make more people use a bus for daily commutes? 
+   What can local authorities do to make bus travel more attractive?
+   The economic and ecologic benefits of less car travel and more cycling can potentially be 
+   large - on an individual scale as well as on a global scale.
+   
+   While this exploratory data analyses gives us a first glimpse it can not answer all those questions. A lot more data over a larger time frame need to be pulled together to get a good overview.  
+   
+### Project proposal
+   One idea to increase the number of cycling commuters is to have a Cycling Commuter Challenge between several companies e. g. within the Silicon Valley. I propose as a project for the Data Incubator fellowship to design an app that would allow companies, teams, and individual cyclist to log their cycling to work miles and compare them with other teams.
+   A more advanced version would be to collect tracking data from smartphones and fitness devices like Fitbits.
+   (Though I am not sure if something like this already exists.)
+   
    
 ### The PUMS data set
 - Public Use Microdata Sample (PUMS) contains a sample of actual responses to the American Community Survey (ACS)
