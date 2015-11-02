@@ -7,7 +7,7 @@ output: html_document
 
 ## A short and not complete cyclists' demographic of US commuters
 
-### The Question:
+### The Question & Proposal:
 
    How many people in the US commute to work on bike and who are they?  
    Is the demographics of people who cycle to work different from the general public?
@@ -21,19 +21,16 @@ output: html_document
    Where in the US has the cycling population increased in the last years? Can an increase of commutes by 
    bike be linked to successful Cycle2Work programms or by the development of cycling paths? 
    
-   
    If we could get a good idea of who is cycling and why it should be possible to increase the amount of 
    bike commutes. Similarly one could ask what has to happen to make more people use a bus for daily commutes? 
    What can local authorities do to make bus travel more attractive?
+   
+   What are the individual and societal benefits?
    The economic and ecologic benefits of less car travel and more cycling can potentially be 
-   large - on an individual scale as well as on a global scale.
+   large - on an individual scale (increased fitness, social effects) as well as on a global scale (reduced co2 emissions).
    
-   While this exploratory data analyses gives us a first glimpse it can not answer all those questions. A lot more data over a larger time frame need to be pulled together to get a good overview.  
    
-### Project proposal
-   One idea to increase the number of cycling commuters is to have a Cycling Commuter Challenge between several companies e. g. within the Silicon Valley. I propose as a project for the Data Incubator fellowship to design an app that would allow companies, teams, and individual cyclist to log their cycling to work miles and compare them with other teams.
-   A more advanced version would be to collect tracking data from smartphones and fitness devices like Fitbits.
-   (Though I am not sure if something like this already exists.)
+   While this exploratory data analyses gives us a first glimpse it can not answer all those questions. A lot more data over a larger time frame need to be pulled together to get a good overview of the demographics of cyclists and the benefits of cycling.  
    
    
 ### The PUMS data set
